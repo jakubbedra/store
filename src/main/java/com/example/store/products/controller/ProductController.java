@@ -31,8 +31,8 @@ public class ProductController {
     @PostMapping("api/v1/products")
     public ResponseEntity<?> saveProduct(@RequestBody ProductRequest request) {
         Product productEntity = productMapper.toEntity(request);
-        productService.save(productEntity);
-        return ResponseEntity.ok().build();
+        Product savedProduct = productService.save(productEntity);
+        return ResponseEntity.ok(savedProduct.getId());
     }
 
     @GetMapping("api/v1/products")
@@ -54,6 +54,14 @@ public class ProductController {
         return productOptional
                 .map(this::toResponse) // if productOptional is present
                 .orElse(ResponseEntity.notFound().build()); // if no product was found
+    }
+
+    public ResponseEntity<?> updateProduct() {
+
+    }
+
+    public ResponseEntity<?> deleteProduct() {
+
     }
 
     private ResponseEntity<ProductResponse> toResponse(Product product) {
