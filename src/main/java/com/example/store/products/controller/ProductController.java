@@ -56,17 +56,25 @@ public class ProductController {
                 .orElse(ResponseEntity.notFound().build()); // if no product was found
     }
 
-    public ResponseEntity<?> updateProduct() {
+//    public ResponseEntity<?> updateProduct() {
+//
+//    }
+@DeleteMapping("api/v1/products/{productId}")
+public ResponseEntity<String> deleteProductById(@PathVariable Long id) {
+    boolean deleted = productService.deleteById(id);
 
+    if (deleted) {
+        return ResponseEntity.ok("Produkt o ID " + id + " został usunięty.");
+    } else {
+        return ResponseEntity.notFound().build();
     }
-
-    public ResponseEntity<?> deleteProduct() {
-
-    }
+}
 
     private ResponseEntity<ProductResponse> toResponse(Product product) {
         ProductResponse response = productMapper.toResponse(product);
         return ResponseEntity.ok(response);
     }
+
+
 
 }

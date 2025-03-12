@@ -30,4 +30,13 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    // Usunięcie produktu
+    public boolean deleteById(Long id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
 }
