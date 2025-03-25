@@ -5,6 +5,7 @@ import com.example.store.products.dto.ProductResponse;
 import com.example.store.products.entity.Product;
 import com.example.store.products.mapper.ProductMapper;
 import com.example.store.products.service.ProductService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -59,22 +60,25 @@ public class ProductController {
 //    public ResponseEntity<?> updateProduct() {
 //
 //    }
-@DeleteMapping("api/v1/products/{productId}")
-public ResponseEntity<String> deleteProductById(@PathVariable Long id) {
-    boolean deleted = productService.deleteById(id);
-
-    if (deleted) {
-        return ResponseEntity.ok("Produkt o ID " + id + " został usunięty.");
-    } else {
-        return ResponseEntity.notFound().build();
+    @DeleteMapping("api/v1/products/{productId}")
+    public ResponseEntity<String> deleteProductById(@PathVariable("productId") Long id) {
+        boolean deleted = productService.deleteById(id);
+        if (deleted) {
+            return ResponseEntity.ok("Produkt o ID " + id + " został usunięty.");
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
-}
+
+    @DeleteMapping("api/v1/products")
+    public ResponseEntity<String> deleteProductById(@PathParam("name") String name) {
+        productService.deleteByName(name);
+        return ResponseEntity.ok("Wszystkie produkty z nazwą" + name + " zostały usunięte.");
+    }
 
     private ResponseEntity<ProductResponse> toResponse(Product product) {
         ProductResponse response = productMapper.toResponse(product);
         return ResponseEntity.ok(response);
     }
-
-
 
 }

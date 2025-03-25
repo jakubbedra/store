@@ -39,4 +39,10 @@ public class ProductService {
         return false;
     }
 
+    public boolean deleteByName(String name) {
+        List<Product> allByName = productRepository.findAllByName(name);
+        productRepository.deleteAll(allByName);
+        return true;
+    }
+
 }
